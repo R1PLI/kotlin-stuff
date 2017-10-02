@@ -1,5 +1,9 @@
 fun main(args: Array<String>) {
     val persons = listOf(Person("Alice", 20), Person("Bob", 21))
+    val rect = Rectangle(41,43)
+    val rectOsquare = Rectangle(43,43)
+    println(rect.isSquare)
+    println(rectOsquare.isSquare)
     println(findPersonWithMaxAge(persons))
     println("The biggest age times 2 is ${findBiggestAgeTimesByValue(persons, 2)}")
     printWithUnitFun("Oleksandr")
