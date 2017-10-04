@@ -1,13 +1,12 @@
 import java.util.*
 
-class Rectangle(private val height: Int, private val width: Int) {
+class Rectangle(val height: Int, val width: Int) {
     val isSquare: Boolean
         get() = height == width
 
     override fun toString(): String {
         return "Rectangle(height=$height, width=$width)"
     }
-
 }
 
 fun createRandomRectangle(): Rectangle {
