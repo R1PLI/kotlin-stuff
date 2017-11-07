@@ -1,3 +1,5 @@
+import java.util.*
+
 interface User {
     val nickname: String
 }
@@ -31,7 +33,50 @@ fun sendEmail(person: Person, letter: String): String {
 
 fun sendDefaultEmail(): String = "person Bob sends letter"
 
-fun Person.isAdult() = age >= 21
+fun alphabetOld(): String {
+    val result = StringBuilder()
+    for (letter in 'A'..'Z') {
+        result.append(letter)
+    }
+    result.append("\nNow i know the alphabet!")
+    return result.toString()
+}
+
+fun alphabetNewWithWith(): String = with(StringBuilder()) {
+    for (letter in 'A'..'Z') {
+        append(letter)
+    }
+    append("\nNow i know the alphabet!")
+    toString()
+}
+
+fun alphabetNewWithApply(): String = StringBuilder().apply {
+    for (letter in 'A'..'Z') {
+        append(letter)
+    }
+    append("\nNow i know the alphabet!")
+}.toString()
+
+fun alphabetNewWithStandardFunction(): String = buildString {
+    for (letter in 'A'..'Z') {
+        append(letter)
+    }
+    append("\nNow i know the alphabet!")
+}
+
+fun strLen(s: String?) = s?.length ?: 0
+
+fun sendEmailTo(email: String) {
+    println("$email sent")
+}
+
+fun <T> copyFunction(source: Collection<T>,
+                     target: MutableCollection<T>
+
+): MutableCollection<T> {
+    target += source
+    return target
+}
 
 @Suppress("USELESS_IS_CHECK")
 fun main(args: Array<String>) {
@@ -96,4 +141,48 @@ fun main(args: Array<String>) {
     val colCol = listOf(listOf("asd", "ytr"), listOf("bsd", "hgf"), listOf("asdasdas", 888))
     println(colCol)
     println(colCol.flatten())
+
+    //generating sequence
+    val sumNumbersTo100 = generateSequence(0) { it + 1 }.takeWhile { it <= 100 }.sum()
+    println(sumNumbersTo100)
+    println("--------------")
+    println(alphabetOld())
+    println("--------------")
+    println(alphabetNewWithWith())
+    println("--------------")
+    println(alphabetNewWithApply())
+    println("--------------")
+    println(alphabetNewWithStandardFunction())
+    println("--------------")
+
+
+    val email1: String? = null
+    val email2: String? = "yolooooooooooo@"
+    val email3 = "vasya"
+    //sendEmailTo(email1) - can't do this because function takes non-null parameter (null)
+    email1?.let { sendEmailTo(it) }
+    //sendEmailTo(email2) - can't do this because function takes non-null parameter (String?) type
+    email2?.let { sendEmailTo(it) }
+    sendEmailTo(email3)
+    println("--------------------------")
+    val sourceList: Collection<Int> = listOf(2, 3, 5) // returns arrayList, cannot be changed
+    val targetList: MutableCollection<Int> = arrayListOf(1) // can be changed
+    println(copyFunction(sourceList, targetList))
+
+    val letters = Array(26) { i -> ('a' + i).toString() }
+    println(letters.joinToString(" "))
+
+    val fiveIntZeros = IntArray(5)
+    val fiveIntZerosFactory = intArrayOf(0, 0, 0, 0, 0)
+    val fiveDoubleZeros = DoubleArray(5)
+    val fiveDoubleZerosFactory = doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0)
+    val doubleSquaresArray = IntArray(5) { i -> (i + 1) * (i + 1) }
+    val filteredArray = doubleSquaresArray.filter { it % 2 == 0 }
+
+    println(Arrays.toString(fiveIntZeros))
+    println(Arrays.toString(fiveIntZerosFactory))
+    println(Arrays.toString(fiveDoubleZeros))
+    println(Arrays.toString(fiveDoubleZerosFactory))
+    println(Arrays.toString(doubleSquaresArray))
+    println(filteredArray)
 }
