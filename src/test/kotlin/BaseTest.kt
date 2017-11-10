@@ -31,12 +31,6 @@ class BaseTest : FunSpec() {
             val actual = bf.filterListByPredicate(asList(1, 2, 3, 4, 5, 6), isOdd)
             actual shouldBe asList(1, 3, 5)
         }
-        test("Should create rectangle with given parameters") {
-            val rect = Rectangle(41, 43)
-            rect.height shouldBe 41
-            rect.width shouldBe 43
-            rect.isSquare shouldBe false
-        }
 
         test("Method should return separated collection") {
             val intList = listOf(1,2,3,4)
