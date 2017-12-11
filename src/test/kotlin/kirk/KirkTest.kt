@@ -1,18 +1,19 @@
 package kirk
 
 import com.automation.remarks.kirk.Kirk.Companion.drive
+import com.automation.remarks.kirk.Kirk.Companion.open
 import com.automation.remarks.kirk.conditions.text
-import io.qameta.allure.Feature
-import io.qameta.allure.Severity
-import io.qameta.allure.SeverityLevel
+import io.qameta.allure.*
 import org.openqa.selenium.By
 import org.testng.annotations.Test
+import pageobject.SearchPage
 
 @Feature("Junit 4 test")
 class KirkTest {
-    var url = "https://google.co.uk"
+    val url = "https://google.co.uk"
 
     @Test
+    @Description("This test will always be green")
     @Severity(SeverityLevel.CRITICAL)
     fun baseSuccessfulTest() {
         drive {
@@ -24,6 +25,8 @@ class KirkTest {
     }
 
     @Test
+    @Description("This test is flaky for testing purposes")
+    @Flaky
     @Severity(SeverityLevel.NORMAL)
     fun baseFailedTest() {
         drive {
@@ -31,6 +34,14 @@ class KirkTest {
             element(By.name("q")).setValue("Automation remarks").pressEnter()
             element(By.linkText("Заметки Автоматизатора")).click()
             element(".header-name").shouldHave(text("Заметки Asdasdasdsasdasd"))
+        }
+    }
+
+    @Test
+    fun pageObjectTest() {
+        open(::SearchPage) {
+            inputValueInSearchField("Kirk")
+                    .validateResultNumber(10)
         }
     }
 }
