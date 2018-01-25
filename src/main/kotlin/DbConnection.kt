@@ -1,7 +1,4 @@
-import com.mongodb.BasicDBObject
-import com.mongodb.DB
-import com.mongodb.DBCollection
-import com.mongodb.MongoClient
+import com.mongodb.*
 
 fun main(args: Array<String>) {
     createMongoObject(
@@ -9,7 +6,7 @@ fun main(args: Array<String>) {
                     "id" to "18.0",
                     "title" to "faust1",
                     "author" to "Gete2",
-                    "array" to arrayOf(1,2,3),
+                    "array" to arrayOf(1, 2, 3),
                     "new Object" to createMongoObject(
                             mapOf(
                                     "inside object id" to "20",
@@ -19,6 +16,24 @@ fun main(args: Array<String>) {
             )
     ).insertElements()
 
+
+    //get element
+    val cursorMap = getMongoDB()
+            .getCollection("requests")
+            .getDBCursor(mapOf("array" to arrayOf(1, 2, 3)))
+
+    val obj = createMongoObject(mapOf("array" to arrayOf(1, 2, 3)))
+
+    val cursorObject = getMongoDB()
+            .getCollection("requests")
+            .getDBCursor(obj)
+
+    val wtfMap = cursorMap.one().get("array")
+    val wtfObject = cursorObject.one().get("array")
+
+    val wtfArray = arrayOf(wtfMap)
+
+    println()
 }
 
 private fun getMongoDB(): DB {
@@ -36,6 +51,10 @@ fun BasicDBObject.insertElements() {
             .getCollectionFromDB("requests")
             .insert(this)
 }
+
+fun DBCollection.getDBCursor(query: BasicDBObject): DBCursor = this.find(query)
+
+fun <T> DBCollection.getDBCursor(properties: Map<String, T>): DBCursor = this.find(createMongoObject(properties))
 
 private fun <T> createMongoObject(properties: Map<String, T>): BasicDBObject {
     val obj = BasicDBObject()
