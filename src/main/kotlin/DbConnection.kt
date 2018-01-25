@@ -4,11 +4,18 @@ import com.mongodb.DBCollection
 import com.mongodb.MongoClient
 
 fun main(args: Array<String>) {
-    formMongoObject(
+    createMongoObject(
             mapOf(
-            "id" to "18.0",
-            "title" to "faust1",
-            "author" to "Gete2"
+                    "id" to "18.0",
+                    "title" to "faust1",
+                    "author" to "Gete2",
+                    "array" to arrayOf(1,2,3),
+                    "new Object" to createMongoObject(
+                            mapOf(
+                                    "inside object id" to "20",
+                                    "inside object title" to "Some Title"
+                            )
+                    )
             )
     ).insertElements()
 
@@ -30,7 +37,7 @@ fun BasicDBObject.insertElements() {
             .insert(this)
 }
 
-private fun formMongoObject(properties: Map<String, String>): BasicDBObject {
+private fun <T> createMongoObject(properties: Map<String, T>): BasicDBObject {
     val obj = BasicDBObject()
     properties.forEach { (key, value) ->
         obj.append(key, value)
