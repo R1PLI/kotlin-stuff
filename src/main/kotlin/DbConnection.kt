@@ -4,8 +4,13 @@ import com.mongodb.DBCollection
 import com.mongodb.MongoClient
 
 fun main(args: Array<String>) {
-    formMongoObject(mapOf("id" to "18.0", "title" to "faust1", "author" to "Gete2"))
-            .insertElements()
+    formMongoObject(
+            mapOf(
+            "id" to "18.0",
+            "title" to "faust1",
+            "author" to "Gete2"
+            )
+    ).insertElements()
 
 }
 
@@ -30,6 +35,5 @@ private fun formMongoObject(properties: Map<String, String>): BasicDBObject {
     properties.forEach { (key, value) ->
         obj.append(key, value)
     }
-
     return obj
 }
