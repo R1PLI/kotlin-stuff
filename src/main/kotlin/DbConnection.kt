@@ -88,7 +88,7 @@ fun DBCursor.getAllElementsWithLimit(limit: Int): List<DBObject>? {
 
 fun DBCollection.insertElements(elements: BasicDBObject): WriteResult = this.insert(elements)
 
-fun DBCollection.deleteCollection(collection: BasicDBObject) = this.remove(collection)
+fun DBCollection.deleteCollection(collection: BasicDBObject): WriteResult = this.remove(collection)
 
 private fun <T> createMongoObject(properties: Map<String, T>): BasicDBObject {
     val obj = BasicDBObject()
