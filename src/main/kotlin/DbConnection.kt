@@ -7,25 +7,28 @@ fun main(args: Array<String>) {
             .getCollection("requests")
 
     //insert element into db
-    mongoCollection.insertElements(
-            createMongoObject(
-                    mapOf(
-                            "id" to "18.0",
-                            "title" to "faust1",
-                            "author" to "Gete2",
-                            "array" to arrayOf(1, createMongoObject(mapOf("object id inside of array" to "20")), 3),
-                            "new Object" to createMongoObject(
-                                    mapOf(
-                                            "inside object id" to "20",
-                                            "inside object title" to "Some Title"
-                                    )
-                            )
-                    )
-            )
-    )
+//    mongoCollection.insertElements(
+//            createMongoObject(
+//                    mapOf(
+//                            "id" to "18.0",
+//                            "title" to "faust1",
+//                            "author" to "Gete2",
+//                            "array" to arrayOf(1, createMongoObject(mapOf("object id inside of array" to "20")), 3),
+//                            "new Object" to createMongoObject(
+//                                    mapOf(
+//                                            "inside object id" to "20",
+//                                            "inside object title" to "Some Title"
+//                                    )
+//                            )
+//                    )
+//            )
+//    )
 
     //create db cursor with use of Map
     val cursorMap = mongoCollection.getDBCursor(mapOf("array" to arrayOf(1, createMongoObject(mapOf("object id inside of array" to "20")), 3)))
+
+    //create db cursor for example with get limit elements with use of Map
+    val cursorMap1 = mongoCollection.getDBCursor(mapOf("array" to arrayOf(1, createMongoObject(mapOf("object id inside of array" to "20")), 3)))
 
     //create db cursor using createMongoObject method
     val cursorObject = mongoCollection.getDBCursor(createMongoObject(mapOf("no" to "no")))
@@ -40,10 +43,13 @@ fun main(args: Array<String>) {
     println(cursorMap?.getElement("array") ?: "No such element in database")
 
     //tries to get all elements in collection, gets elements collections
-    cursorMap?.getAllElements()?.forEach { println(it) }
+    cursorMap1?.getAllElements()?.forEach { println(it) }
 
     //tries to get limited number of elements in collection, gets elements with fixed size
-    cursorMap?.getAllElementsWithLimit(4)?.forEach { println(it) }
+    cursorMap1?.getAllElementsWithLimit(4)?.forEach { println(it) }
+
+    //tries to delete collection, success
+    mongoCollection.deleteCollection(createMongoObject(mapOf("array" to arrayOf(1, 2, 3))))
 }
 
 private fun setupMongoConnection(host: String, port: Int): MongoClient = MongoClient(host, port)
@@ -81,6 +87,8 @@ fun DBCursor.getAllElementsWithLimit(limit: Int): List<DBObject>? {
 }
 
 fun DBCollection.insertElements(elements: BasicDBObject): WriteResult = this.insert(elements)
+
+fun DBCollection.deleteCollection(collection: BasicDBObject) = this.remove(collection)
 
 private fun <T> createMongoObject(properties: Map<String, T>): BasicDBObject {
     val obj = BasicDBObject()
