@@ -2,7 +2,7 @@ group 'kotlin-stuff'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.2.10'
+    ext.kotlin_version = '1.2.21'
 
     repositories {
         mavenCentral()
@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile group: 'com.automation-remarks', name: 'kirk', version: '0.8.5'
 }
 
