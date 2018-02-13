@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "io.qameta.allure:allure-gradle:2.3"
+        classpath "io.qameta.allure:allure-gradle:2.5"
     }
 }
 
@@ -28,7 +28,7 @@ dependencies {
 }
 
 allure {
-    version = '2.2.1'
+    version = '2.4.1'
     autoconfigure = true
 }
 
