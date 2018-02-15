@@ -7,10 +7,11 @@ import io.qameta.allure.*
 import org.openqa.selenium.By
 import org.testng.annotations.Test
 import pageobject.SearchPage
+import pageobject.pudgeobject.MainPage
 
 @Feature("Junit 4 test")
 class KirkTest {
-    val url = "https://google.co.uk"
+    private val url = "https://google.co.uk"
 
     @Test
     @Description("This test will always be green")
@@ -42,6 +43,18 @@ class KirkTest {
         open(::SearchPage) {
             inputValueInSearchField("Kirk")
                     .validateResultNumber(10)
+        }
+    }
+
+    @Test
+    fun newPageObjectTest() {
+        val userCreds1 = "treadz11@ukr.net"
+        val userCreds2 =  "tinker11"
+
+        open(::MainPage) {
+            loginInMailbox(userCreds1, userCreds2)
+            getEmailAddressTextElement().shouldHave(text(userCreds1))
+            getLogoutLinkElement().click()
         }
     }
 }
